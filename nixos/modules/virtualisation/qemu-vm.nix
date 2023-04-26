@@ -1097,7 +1097,7 @@ in
     # build-vm`) of a system configuration, where the regular value for the
     # `fileSystems' attribute should be disregarded (since those filesystems
     # don't necessarily exist in the VM).
-    fileSystems = mkVMOverride cfg.fileSystems;
+    fileSystems = lib.mapAttrs (n: v: mkVMOverride v) cfg.fileSystems;
 
     virtualisation.fileSystems = let
       mkSharedDir = tag: share:

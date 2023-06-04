@@ -2044,6 +2044,8 @@ with pkgs;
 
   git-publish = python3Packages.callPackage ../applications/version-management/git-publish { };
 
+  git-pw = callPackage ../applications/version-management/git-pw { };
+
   git-quick-stats = callPackage ../applications/version-management/git-quick-stats { };
 
   git-quickfix = callPackage ../applications/version-management/git-quickfix {

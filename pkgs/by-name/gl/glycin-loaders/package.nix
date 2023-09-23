@@ -1,6 +1,6 @@
 { stdenv
 , lib
-, fetchFromGitLab
+, fetchurl
 , substituteAll
 , bubblewrap
 , cargo
@@ -8,31 +8,21 @@
 , meson
 , ninja
 , pkg-config
-, rustPlatform
 , rustc
 , wrapGAppsHook4
 , gtk4
 , libheif
 , libxml2
-, nix-update-script
+, gnome
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "glycin-loaders";
-  version = "0.1.0";
+  version = "0.1.1";
 
-  src = fetchFromGitLab {
-    domain = "gitlab.gnome.org";
-    owner = "sophie-h";
-    repo = "glycin";
-    rev = version;
-    hash = "sha256-XT3i0GQsLC2sMLHpaEzbItauX/8327wdlVt0/WHkCeo=";
-  };
-
-  cargoDeps = rustPlatform.fetchCargoTarball {
-    inherit src;
-    name = "${pname}-${version}";
-    hash = "sha256-HRBR+FWI87FCtDlJ3VvwT/7QFG/L7PYliX7mBYPy3aM=";
+  src = fetchurl {
+    url = "mirror://gnome/sources/glycin-loaders/${lib.versions.majorMinor finalAttrs.version}/glycin-loaders-${finalAttrs.version}.tar.xz";
+    hash = "sha256-J8yzAsVymOKlXu78a8vMpodj+HtIBOy40KfkXHLfuVU=";
   };
 
   patches = [
@@ -48,7 +38,6 @@ stdenv.mkDerivation (finalAttrs: {
     meson
     ninja
     pkg-config
-    rustPlatform.cargoSetupHook
     rustc
     wrapGAppsHook4
   ];
@@ -59,7 +48,9 @@ stdenv.mkDerivation (finalAttrs: {
     libxml2 # for librsvg crate
   ];
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = gnome.updateScript {
+    packageName = "glycin-loaders";
+  };
 
   meta = with lib; {
     description = "Glycin loaders for several formats";

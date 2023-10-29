@@ -31,7 +31,6 @@ python3.pkgs.buildPythonApplication rec {
     markdown
     markupsafe
     pygments
-    toml # remove once python311 is the default
     typogrify
   ];
 

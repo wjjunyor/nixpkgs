@@ -1,6 +1,7 @@
 { lib
 , stdenv
 , fetchurl
+, fetchpatch
 , pkg-config
 , libGL
 , glib
@@ -38,10 +39,6 @@ stdenv.mkDerivation rec {
     # could be merged, but dev can not make a new release.
     ./patches/gnome_bugzilla_787443_359589_deepin.patch
     ./patches/gnome_bugzilla_787443_361056_deepin.patch
-
-    # Explicitly add libGL path as fallback.
-    # Adjusted from https://github.com/NixOS/nixpkgs/pull/38168.
-    ./patches/libgl_path.patch
   ];
 
   outputs = [ "out" "dev" ];
@@ -90,8 +87,6 @@ stdenv.mkDerivation rec {
     "-I${cairo.dev}/include/cairo"
     "-I${harfbuzz.dev}/include/harfbuzz"
   ]);
-
-  env.NIX_CFLAGS_COMPILE = lib.optionalString (!stdenv.isDarwin) ''-DLIBGL_PATH="${lib.getLib libGL}/lib"'';
 
   #doCheck = true; # all tests fail (no idea why)
 

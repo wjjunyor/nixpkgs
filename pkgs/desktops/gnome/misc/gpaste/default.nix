@@ -9,7 +9,6 @@
 , gcr_4
 , libadwaita
 , meson
-, mutter
 , ninja
 , pango
 , pkg-config
@@ -61,7 +60,6 @@ stdenv.mkDerivation rec {
     gtk4
     gcr_4
     libadwaita
-    mutter
     pango
   ];
 

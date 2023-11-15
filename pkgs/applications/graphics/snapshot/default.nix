@@ -1,6 +1,7 @@
 { stdenv
 , lib
 , fetchurl
+, fetchpatch
 , cargo
 , desktop-file-utils
 , meson
@@ -24,6 +25,15 @@ stdenv.mkDerivation rec {
     url = "mirror://gnome/sources/snapshot/${lib.versions.major version}/snapshot-${version}.tar.xz";
     hash = "sha256-7keO4JBzGgsIJLZrsXRr2ADcv+h6yDWEmUSa85z822c=";
   };
+
+  patches = [
+    # Fix portal requests
+    # https://gitlab.gnome.org/GNOME/snapshot/-/merge_requests/168
+    (fetchpatch {
+      url = "https://gitlab.gnome.org/GNOME/snapshot/-/commit/6aec0f56d6bb994731c1309ac6e2cb822b82067e.patch";
+      hash = "sha256-6tnOhhTQ3Rfl3nCw/rliLKkvZknvZKCQyeMKaTxYmok=";
+    })
+  ];
 
   nativeBuildInputs = [
     cargo
